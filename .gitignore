@@ -1,0 +1,23 @@
+# Ignore compiled / cached files from python scripts
+*.pyc
+*log
+*.save
+# Ignore service resulting files
+*.jpg
+*.png
+*.index
+*.bmp
+*.ldr
+# Byte-compiled / optimized / DLL files
+__pycache__/
+# Environments and dirs
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+Pipfile
+Pipfile.lock
+docker/*

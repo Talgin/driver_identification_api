@@ -1,0 +1,35 @@
+version: '3'
+services:
+  carsharing_api:
+    image: carsharing:2.0
+    #build:
+    #  context: ./app
+    #  dockerfile: Dockerfile
+    restart: unless-stopped
+    ports:
+      - 9595:9595
+    # network_mode: "host"
+    container_name: carsharing_api
+    working_dir: /code/app
+    command: sh -c "uvicorn main:app --reload --host 0.0.0.0 --port 9595 --workers 10 --forwarded-allow-ips '*'"
+    volumes:
+      - ./app:/code/app
+      - ../data:/csv_folder
+      - ../models:/models
+      - /var/run/docker.sock:/var/run/docker.sock
+    shm_size: 1g
+    ulimits:
+      memlock: -1
+      stack: 67108864
+    environment:
+      - PROJECT_SRC_RT=${PWD}
+      - LC_ALL=C.UTF-8
+      - LANG=C.UTF-8
+      - FASTAPI_MODELS_DIR=/models
+      - FASTAPI_MODELS_THRESHOLD=0.7
+      - FASTAPI_CSV_FOLDER=/csv_folder
+      - FASTAPI_PG_SERVER=10.202.100.15
+      - FASTAPI_PG_PORT=9090
+      - FASTAPI_PG_DB=fr_db
+      - FASTAPI_PG_USER=fr_user
+      - FASTAPI_PG_PASS=123456
